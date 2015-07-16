@@ -19,13 +19,12 @@ if [ ! -d $ANSIBLE_DIR ]; then
         echo "Updating apt cache"
         apt-get update
         echo "Installing Ansible dependencies and Git"
-        apt-get install -y git python-yaml python-paramiko python-jinja2
+        apt-get install -y git python-pip
         echo "Cloning Ansible"
-        git clone git://github.com/ansible/ansible.git ${ANSIBLE_DIR}
+        pip install ansible
 fi
 
-cd ${ANSIBLE_DIR}
 cp /vagrant/${ANSIBLE_HOSTS} ${TEMP_HOSTS} && chmod -x ${TEMP_HOSTS}
 echo "Running Ansible"
-bash -c "source hacking/env-setup && ansible-playbook /vagrant/${ANSIBLE_PLAYBOOK} --inventory-file=${TEMP_HOSTS} --connection=local -vvvv"
+bash -c "ansible-playbook /vagrant/${ANSIBLE_PLAYBOOK} --inventory-file=${TEMP_HOSTS} --connection=local -vvvv"
 rm ${TEMP_HOSTS}
