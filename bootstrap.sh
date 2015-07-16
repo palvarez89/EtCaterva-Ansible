@@ -18,9 +18,9 @@ fi
 if [ ! -d $ANSIBLE_DIR ]; then
         echo "Updating apt cache"
         apt-get update
-        echo "Installing Ansible dependencies and Git"
-        apt-get install -y git python-pip
-        echo "Cloning Ansible"
+        echo "Installing pip"
+        apt-get install -y python-pip
+        echo "Installing Ansible from pip"
         pip install ansible
 fi
 
