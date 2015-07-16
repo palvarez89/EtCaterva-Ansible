@@ -26,5 +26,6 @@ fi
 
 cp /vagrant/${ANSIBLE_HOSTS} ${TEMP_HOSTS} && chmod -x ${TEMP_HOSTS}
 echo "Running Ansible"
+mv group_vars/all.test group_vars/all
 bash -c "ansible-playbook /vagrant/${ANSIBLE_PLAYBOOK} --inventory-file=${TEMP_HOSTS} --connection=local -vvvv"
 rm ${TEMP_HOSTS}
