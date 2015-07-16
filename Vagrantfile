@@ -12,33 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     machine.vm.hostname = 'echaloasuerte1'
     machine.vm.network "private_network", ip: "192.168.77.22"
 
-    machine.vm.provision :ansible do |ansible|
-      ansible.playbook = "site.yml"
-      ansible.sudo = true
-      ansible.verbose = 'vvvv'
 
-      ansible.extra_vars = {
-        ansible_ssh_user: 'vagrant',
-        ES_FQDN: "192.168.77.22.xip.io",
-        mysqldb_admin_user: "root",
-        mysqldb_admin_password: "rootpass",
-        mongodb_admin_user: "root",
-        mongodb_admin_password: "rootpass",
-        echaloasuerte_gmail_password: "gmailpass",
-        TEST_DEPLOYMENT: "True",
-        cloudflare_api_token: "faketoken",
-        cloudflare_echaloasuerte_id: "fakeid",
-        cloudflare_pickforme_id: "fakeid",
-      }
-
-      ansible.groups = {
-        "MONGO_DATABASES" => ["echaloasuerte1"],
-        "ECHALOASUERTE" => ["echaloasuerte1"],
-      }
-
-      # Disable default limit (required with Vagrant 1.5+)
-      ansible.limit = 'all'
-
+    machine.vm.provision :shell do |sh|
+      sh.path = "bootstrap.sh"
+      sh.args = "./ansible site.yml hosts_local"
     end
   end
 
