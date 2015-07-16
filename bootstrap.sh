@@ -4,6 +4,7 @@ ANSIBLE_DIR=$1
 ANSIBLE_PLAYBOOK=$2
 ANSIBLE_HOSTS=$3
 TEMP_HOSTS="/tmp/ansible_hosts"
+mv /vagrant/group_vars/all.test /vagrant/group_vars/all
 
 if [ ! -f /vagrant/$ANSIBLE_PLAYBOOK ]; then
         echo "Cannot find Ansible playbook"
@@ -26,6 +27,5 @@ fi
 
 cp /vagrant/${ANSIBLE_HOSTS} ${TEMP_HOSTS} && chmod -x ${TEMP_HOSTS}
 echo "Running Ansible"
-mv group_vars/all.test group_vars/all
 bash -c "ansible-playbook /vagrant/${ANSIBLE_PLAYBOOK} --inventory-file=${TEMP_HOSTS} --connection=local -vvvv"
 rm ${TEMP_HOSTS}
