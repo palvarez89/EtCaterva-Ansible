@@ -25,6 +25,6 @@ install:
 - ssh -V
 - ipconfig /all
 build_script:
-- vagrant up || ssh vagrant@127.0.0.1 -p 2222 -i .vagrant\machines\default\virtualbox\private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -vvv -C "pwd"
+- vagrant up
 - vagrant ssh -c "uname -a"
 test: off
