@@ -1,0 +1,19 @@
+- hosts: JENKINS
+  remote_user: root
+  tasks:
+  - name: generate pass
+    shell: openssl rand -base64 32 | tee /root/jkpass
+    register: plain
+
+  - shell: echo {{ plain }}
+    
+
+  - name: encript
+    shell: python -c 'import crypt; print crypt.crypt("{{ plain.stdout }}", "guest")'
+    register: crypted
+
+  - user:
+      name: jenkins
+      shell: /bin/bash
+      password: "{{ crypted.stdout }}"
+

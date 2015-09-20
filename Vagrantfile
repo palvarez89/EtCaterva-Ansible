@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     machine.vm.network "private_network", ip: "192.168.77.22"
 
     machine.vm.provision :ansible do |ansible|
-      ansible.playbook = "site.yml"
+      ansible.playbook = "ciservers.yml"
       ansible.sudo = true
       ansible.verbose = 'vvvv'
 
@@ -34,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.groups = {
         "MONGO_DATABASES" => ["echaloasuerte1"],
         "ECHALOASUERTE" => ["echaloasuerte1"],
+        "JENKINS" => ["echaloasuerte1"],
       }
 
       # Disable default limit (required with Vagrant 1.5+)
