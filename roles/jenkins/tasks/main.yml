@@ -44,16 +44,6 @@
   notify:
   - restart jenkins
 
-- name: Configure Jenkins (auth etc)
-  copy:
-    src: config.xml
-    dest: /var/lib/jenkins/config.xml
-    owner: jenkins
-    group: jenkins
-  notify:
-  - restart jenkins
-
-
 - service:
     name: jenkins
     state: started
@@ -99,7 +89,7 @@
 
 
 - name: Wait for Jenkins to be available
-  shell: java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ who-am-i --username jenkins --password-file /root/jkpass
+  shell: java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ who-am-i --username jenkins --password-file /root/jkpass || java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ who-am-i
   register: result
   until: result.rc == 0
   retries: 10
@@ -107,7 +97,7 @@
 
 - name: Install Jenkins plugins.
   shell: >
-    java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }} --username jenkins --password-file /root/jkpass
+    java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }} --username jenkins --password-file /root/jkpass || java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }}
   args:
     creates: /var/lib/jenkins/plugins/{{ item }}.jpi
   with_items:
@@ -119,3 +109,12 @@
   - github
   - role-strategy
   notify: restart jenkins
+
+- name: Configure Jenkins (auth etc)
+  copy:
+    src: config.xml
+    dest: /var/lib/jenkins/config.xml
+    owner: jenkins
+    group: jenkins
+  notify:
+  - restart jenkins
