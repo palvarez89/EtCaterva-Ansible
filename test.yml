@@ -1,18 +1,18 @@
 - hosts: JENKINS
   remote_user: root
   tasks:
-  - name: generate pass
+  - name: Generate random password for jenkins user in /root/jkpass
     shell: openssl rand -base64 32 | tee /root/jkpass
     register: plain
 
   - shell: echo {{ plain }}
-    
 
-  - name: encript
+  - name: Encrypt the password
     shell: python -c 'import crypt; print crypt.crypt("{{ plain.stdout }}", "guest")'
     register: crypted
 
-  - user:
+  - name: Modify jenkins user with the random password
+    user:
       name: jenkins
       shell: /bin/bash
       password: "{{ crypted.stdout }}"
