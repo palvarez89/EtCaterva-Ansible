@@ -4,6 +4,17 @@
     echaloasuerte_app: "{{ echaloasuerte_root }}/web-app"
     echaloasuerte_venv: "{{ echaloasuerte_root }}/venv"
 
+Install npm in /opt/node
+
+socket.io
+express
+http
+
+Ceate upstart unit to run main.js using /opt/node/node_modules
+https://github.com/nicokaiser/node-monit/tree/master/upstart
+
+Create configuration for monit
+
 - name: Create echaloasuerte application tree
   file:
     path: "{{ item }}"
@@ -18,9 +29,10 @@
 
 - name: Clone/update repository in {{ echaloasuerte_app }}
   git:
-    repo: git://github.com/etcaterva/EchaloASuerte.git
+    repo: git://github.com/Mariocj89/EchaloASuerte.git
     dest: "{{ echaloasuerte_app }}"
     update: yes
+    version: fbcb8795e22245bb2a0efcf34b214e19912fc2cf
     accept_hostkey: True
     force: yes
   notify:
