@@ -4,12 +4,6 @@
     echaloasuerte_app: "{{ echaloasuerte_root }}/web-app"
     echaloasuerte_venv: "{{ echaloasuerte_root }}/venv"
 
-- name: dependencies needed
-  apt:
-    name: "{{ item }}"
-  with_items:
-  - python-dev
-
 - name: Create echaloasuerte application tree
   file:
     path: "{{ item }}"
