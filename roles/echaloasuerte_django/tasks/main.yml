@@ -4,16 +4,19 @@
     echaloasuerte_app: "{{ echaloasuerte_root }}/web-app"
     echaloasuerte_venv: "{{ echaloasuerte_root }}/venv"
 
-Install npm in /opt/node
+- name: Install npm dependencies in /opt/
+  npm:
+    name: "{{ item }}"
+    path: /opt
+  with_items:
+  - socket.io
+  - express
+  - http
 
-socket.io
-express
-http
-
-Ceate upstart unit to run main.js using /opt/node/node_modules
-https://github.com/nicokaiser/node-monit/tree/master/upstart
-
-Create configuration for monit
+#Ceate upstart unit to run main.js using /opt/node/node_modules
+#https://github.com/nicokaiser/node-monit/tree/master/upstart
+#
+#Create configuration for monit
 
 - name: Create echaloasuerte application tree
   file:

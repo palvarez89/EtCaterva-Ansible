@@ -4,6 +4,5 @@
   - users
   - apache
   - { role: monitoring }
-  - { role: ansible-nodejs }
   - { role: echaloasuerte_django, datadir: "/data" }
   - { role: echaloasuerte_php, datadir: "/data" }
