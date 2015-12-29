@@ -6,6 +6,8 @@
     update-cache: yes
   with_items:
   - monit
+  - unzip
+  - php5-curl
 
 - name: Set monit config file
   template:
@@ -21,3 +23,31 @@
     name: monit
     state: started
 
+- name: Download monit-graph
+  get_url:
+    url: https://github.com/danschultzer/monit-graph/archive/master.zip
+    dest: /tmp/monit-graph.zip
+
+- name: Create monit-graph directory
+  file:
+    path: "{{ datadir }}/monit-graph"
+    state: directory
+
+- name: Unpack monit-graph.zip
+  unarchive:
+    copy: no
+    src: /tmp/monit-graph.zip
+    dest: "{{ datadir }}/monit-graph"
+
+- shell: mv {{ datadir }}/monit-graph/monit-graph-master/* {{ datadir }}/monit-graph
+- shell: rm -r {{ datadir }}/monit-graph/monit-graph-master
+
+- file:
+    path: "{{ datadir }}/monit-graph/data"
+    state: directory
+    mode: 775
+
+- file:
+    path: "{{ datadir }}/monit-graph/data/index.php"
+    state: directory
+    mode: 644
