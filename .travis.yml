@@ -3,6 +3,8 @@
 language: python
 python:
 -   "3.5"
+install:
+-   pip install ansible
 
 script:
 -   mv group_vars/testing_vars group_vars/all
