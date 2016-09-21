@@ -8,4 +8,4 @@ install:
 
 script:
 -   mv group_vars/testing_vars group_vars/all
--   sudo ansible-playbook -i hosts_local site.yml -vvvv
+-   ansible-playbook -i hosts_local webservers.yml -vvvv
