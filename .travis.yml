@@ -1,5 +1,5 @@
-# https://docs.travis-ci.com/user/ci-environment/
-# Ubuntu 12.04 LTS Server Edition 64 bit
+sudo: required
+dist: trusty
 language: python
 python:
 -   "2.7"
